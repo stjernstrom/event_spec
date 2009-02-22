@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.dirname($0)+'/..'
+
+require 'rubygems'
+require 'mappings/rubyonrails'
+require 'lib/eventlistener'
+
+interrupted = false
+
+trap("SIGINT") { 
+
+  if interrupted
+    exit
+  end
+
+  interrupted = true
+  puts "\nPress CTRL+C again to terminate\nRunning all specs in 2 secs."
+  sleep 2
+  interrupted = false
+  system("clear; script/spec spec/ -X -O spec/spec.opts")
+}
+
+
+system("clear; script/spec spec/ -X -O spec/spec.opts")
+
+eventl = Eventlistener.new
+eventl.run_listerner
